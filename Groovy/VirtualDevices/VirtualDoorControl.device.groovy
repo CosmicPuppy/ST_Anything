@@ -28,6 +28,8 @@ metadata {
 		capability "Actuator"
 		capability "Sensor"
 		capability "Momentary"
+		
+		capability "Switch"
         
 		command "opening"
 		command "closing"
@@ -59,6 +61,19 @@ def parse(String description) {
 	log.debug "Parsing '${description}'"
 	// TODO: handle 'door' attribute
 
+}
+
+// Imitate a Switch to assist with Echo & IFTTT, etc., integrations...
+def on() {
+	open()
+	sendEvent(name: "switch", value: "on", isStateChange: true)
+	// push()  // Not sure if calling push() or actuate() here is needed or not. Test without first.
+}
+
+def off() {
+	close()
+	sendEvent(name: "switch", value: "off", isStateChange: true)
+	// push()  // Not sure if calling push() or actuate() here is needed or not. Test without first.
 }
 
 // handle commands
